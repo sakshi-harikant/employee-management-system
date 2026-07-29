@@ -13,6 +13,16 @@ A full-stack web application for managing employee information with secure authe
 * Search employee records
 
 ---
+
+## Tech Stack
+
+* **Backend:** Java 17, Spring Boot, Spring Security
+* **Frontend:** Thymeleaf, HTML, CSS
+* **Database:** MySQL
+* **ORM:** Spring Data JPA (Hibernate)
+* **Build Tool:** Maven
+
+---
 ## 📸 Screenshots
 
 ### Home Page
@@ -24,25 +34,9 @@ A full-stack web application for managing employee information with secure authe
 ### Dashboard
 ![Dashboard](screenshot/DashBoard.png)
 
-## Tech Stack
 
-* **Backend:** Java 17, Spring Boot, Spring Security
-* **Frontend:** Thymeleaf, HTML, CSS
-* **Database:** MySQL
-* **ORM:** Spring Data JPA (Hibernate)
-* **Build Tool:** Maven
 
----
 
-## Screenshots
-
-* Home Page
-* Login
-* Admin Dashboard
-* Employee Dashboard
-* Employee Management
-
----
 
 ## How to Run
 
