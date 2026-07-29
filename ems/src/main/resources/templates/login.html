@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In - Registry</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <!-- Google Fonts for branding consistency -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Lora:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+        .serif-heading {
+            font-family: 'Lora', serif;
+        }
+    </style>
+</head>
+<body class="bg-[#FCFCFC] text-[#12131A] min-h-screen flex flex-col justify-between overflow-x-hidden">
+
+    <!-- SPLIT WORKSPACE CONTAINER -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 min-h-screen w-full">
+        
+        <!-- ================= LEFT SIDE: PREMIUM BRANDED PANEL ================= -->
+        <div class="lg:col-span-5 bg-[#0E1015] p-8 sm:p-16 flex flex-col justify-between text-white relative overflow-hidden border-r border-slate-900">
+            <!-- Subtle glow background effect -->
+            <div class="absolute -top-40 -left-40 w-96 h-96 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none"></div>
+            
+            <!-- Brand Logo Header -->
+            <div class="flex items-center gap-3 z-10">
+                <div class="w-10 h-10 bg-gradient-to-br from-[#5D5FEF] to-[#4A3AFF] rounded-xl flex items-center justify-center text-white font-bold text-xl shadow-lg">
+                    <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="4" y1="9" x2="20" y2="9"></line>
+                        <line x1="4" y1="15" x2="20" y2="15"></line>
+                        <line x1="10" y1="3" x2="8" y2="21"></line>
+                        <line x1="16" y1="3" x2="14" y2="21"></line>
+                    </svg>
+                </div>
+                <span class="text-xl font-bold tracking-tight text-white">Registry</span>
+            </div>
+
+            <!-- Value Proposition Statement with Divider -->
+            <div class="space-y-6 my-auto pt-12 lg:pt-0 z-10">
+                <h2 class="serif-heading text-3xl sm:text-4xl font-medium tracking-tight leading-tight">
+                    Keep your organization's <span class="italic text-[#5D5FEF]">heartbeat</span> secure and structured.
+                </h2>
+                
+                <!-- Divider Line -->
+                <div class="w-16 h-[2px] bg-gradient-to-r from-[#4A3AFF] to-transparent"></div>
+                
+                <!-- Feature Bullet Points -->
+                <ul class="space-y-4">
+                    <li class="flex items-start gap-3 text-sm text-slate-400">
+                        <svg class="w-5 h-5 text-[#5D5FEF] shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 01-1.043 3.296a3.745 3.745 0 01-3.296 1.043A3.745 3.745 0 0112 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 01-3.296-1.043a3.745 3.745 0 01-1.043-3.296A3.745 3.745 0 013 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 011.043-3.296a3.746 3.746 0 013.296-1.043A3.746 3.746 0 0112 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 013.296 1.043a3.746 3.746 0 011.043 3.296A3.745 3.745 0 0121 12z"></path>
+                        </svg>
+                        <span>Verified single-session credentials to protect sensitive database records.</span>
+                    </li>
+                    <li class="flex items-start gap-3 text-sm text-slate-400">
+                        <svg class="w-5 h-5 text-[#5D5FEF] shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.109A2.25 2.25 0 0112.75 21.5h-1.5a2.25 2.25 0 01-2.25-2.263V19.13m4.786-3.07a9.348 9.348 0 00-5.658-.562m5.658.562l.011-.004m0 0A3.75 3.75 0 1012 6.75a3.75 3.75 0 00-3.125 5.617m5.658-.562c-.501-.91-.786-1.957-.786-3.07V9M9.062 18.994V19.13a2.25 2.25 0 01-2.25 2.263h-1.5a2.25 2.25 0 01-2.25-2.263v-.136m4.786-3.07a9.348 9.348 0 00-5.658-.562m5.658.562l.011-.004m0 0A3.75 3.75 0 103 12.75a3.75 3.75 0 004.121 3.068M12.75 9.75a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z"></path>
+                        </svg>
+                        <span>Role-Based Access separation automatically routing admins and workers.</span>
+                    </li>
+                </ul>
+            </div>
+
+            
+        </div>
+
+        <!-- ================= RIGHT SIDE: AUTHENTICATION FORM PANEL ================= -->
+        <div class="lg:col-span-7 flex flex-col justify-center items-center p-8 sm:p-16 bg-[#FCFCFC]">
+            <div class="w-full max-w-md space-y-8">
+                
+                <!-- Form Headers -->
+                <div class="space-y-2">
+                    <h1 class="text-3xl font-bold text-slate-900 tracking-tight">Welcome Back</h1>
+                    <p class="text-sm text-slate-500">Sign in with your enterprise credentials to access your dashboard.</p>
+                </div>
+
+                <!-- Session Error Alert Banner (Handles both Spring Security params & Controller Model attributes) -->
+                <div th:if="${param.error != null or error != null}" class="bg-rose-50 border-l-4 border-rose-500 p-4 rounded-xl">
+                    <p class="text-sm text-rose-700 font-semibold" 
+                       th:text="${error != null ? error : 'Invalid enterprise username or password. Please try again.'}">
+                        Invalid enterprise username or password. Please try again.
+                    </p>
+                </div>
+
+                <!-- Session Timeout / Logged Out Alert Banner -->
+                <div th:if="${param.logout}" class="bg-amber-50 border-l-4 border-amber-500 p-4 rounded-xl">
+                    <p class="text-sm text-amber-700 font-semibold">You have signed out successfully.</p>
+                </div>
+                <form th:action="@{/login}" method="POST" class="space-y-6">
+                    <!-- Email Field -->
+                    <div class="space-y-2">
+                        <label class="block text-sm font-semibold text-slate-700">Email Address</label>
+                        <input type="email" name="email" placeholder="name@company.com" required
+                               class="w-full px-4 py-3 rounded-xl border border-slate-200 outline-none focus:border-[#4A3AFF] focus:ring-2 focus:ring-indigo-100 transition-all text-sm placeholder:text-slate-400">
+                    </div>
+
+                    <!-- Password Field -->
+                    <div class="space-y-2">
+                        <div class="flex items-center justify-between">
+                            <label class="block text-sm font-semibold text-slate-700">Password</label>
+                        </div>
+                        <input type="password" name="password" placeholder="••••••••" required
+                               class="w-full px-4 py-3 rounded-xl border border-slate-200 outline-none focus:border-[#4A3AFF] focus:ring-2 focus:ring-indigo-100 transition-all text-sm placeholder:text-slate-400">
+                    </div>
+
+                    <!-- CTA Submit Button -->
+                    <button type="submit" class="w-full bg-[#4A3AFF] hover:bg-[#3b2ee0] text-white font-semibold py-3.5 rounded-xl shadow-lg shadow-indigo-100 hover:shadow-none transition-all text-sm cursor-pointer mt-2">
+                        Sign In
+                    </button>
+                </form>
+
+                
+
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>

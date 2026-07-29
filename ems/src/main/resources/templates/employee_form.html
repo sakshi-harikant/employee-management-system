@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>EMS - Employee Profile Console</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <!-- Google Fonts for brand consistency -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-[#FCFCFC] text-[#12131A] flex min-h-screen">
+
+    <!-- 1. SIDEBAR CONFIGURATION -->
+    <aside class="w-64 bg-slate-900 text-slate-300 flex flex-col justify-between hidden md:flex shrink-0">
+        <div>
+            <!-- Sidebar Header Brand with Custom Gradient Logo -->
+            <div class="h-20 bg-slate-950 flex items-center px-6 border-b border-slate-800/60">
+                <div class="flex items-center gap-3">
+                    <div class="w-9 h-9 bg-gradient-to-br from-[#5D5FEF] to-[#4A3AFF] rounded-xl flex items-center justify-center text-white font-bold text-lg shadow-md">
+                        <svg class="w-4.5 h-4.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                            <line x1="4" y1="9" x2="20" y2="9"></line>
+                            <line x1="4" y1="15" x2="20" y2="15"></line>
+                            <line x1="10" y1="3" x2="8" y2="21"></line>
+                            <line x1="16" y1="3" x2="14" y2="21"></line>
+                        </svg>
+                    </div>
+                    <span class="text-base font-bold tracking-tight text-white">Registry Console</span>
+                </div>
+            </div>
+            
+            <!-- Navigation Links -->
+            <nav class="mt-8 px-4 space-y-1.5">
+                <a th:href="@{/admin/dashboard}" class="flex items-center gap-3 px-4 py-3 hover:bg-slate-800/60 rounded-xl text-slate-400 hover:text-white font-medium transition-all">Dashboard</a>
+                <a th:href="@{/admin/employees}" class="flex items-center gap-3 px-4 py-3 bg-[#4A3AFF] rounded-xl text-white font-medium transition-all shadow-md shadow-indigo-950/20">Manage Employees</a>
+                <a th:href="@{/admin/departments}" class="flex items-center gap-3 px-4 py-3 hover:bg-slate-800/60 rounded-xl text-slate-400 hover:text-white font-medium transition-all">Manage Departments</a>
+            </nav>
+        </div>
+        
+        <!-- Sidebar Footer Action -->
+        <div class="p-4 border-t border-slate-800/60">
+            <a th:href="@{/logout}" class="flex items-center justify-center gap-2 w-full py-2.5 bg-slate-800/50 hover:bg-slate-800 text-slate-400 hover:text-white font-semibold rounded-xl transition-all text-xs tracking-wide">Sign Out</a>
+        </div>
+    </aside>
+
+    <!-- 2. MAIN WORKSPACE VIEW -->
+    <main class="flex-1 flex flex-col min-w-0">
+        <!-- Application Top Header Bar -->
+        <header class="h-20 bg-white border-b border-slate-100 flex items-center justify-between px-8 shrink-0">
+            <h2 class="text-xl font-bold text-slate-900 tracking-tight">Employee Records</h2>
+            <div class="flex items-center gap-2.5 bg-indigo-50/60 px-4 py-2 rounded-xl border border-indigo-100">
+                <div class="w-2 h-2 bg-[#4A3AFF] rounded-full"></div>
+                <span class="text-xs font-semibold text-[#4A3AFF]">Action: Profile Edit</span>
+            </div>
+        </header>
+
+        <!-- Main Workspace Scrollable Container -->
+        <div class="p-8 flex items-center justify-center flex-1 overflow-y-auto bg-[#F8FAFC]">
+            
+            <!-- C. FORM CONTAINER CARD -->
+            <form th:action="@{/admin/employees/save}" th:object="${employee}" method="POST" class="w-full max-w-2xl bg-white rounded-2xl shadow-sm border border-slate-200/80 overflow-hidden">
+                
+                <!-- CRITICAL: ID Tracking hidden field keeps update function intact -->
+                <input type="hidden" th:field="*{id}" />
+
+                <!-- Card Header Accent -->
+                <div class="bg-slate-900 px-8 py-5 flex items-center gap-3 border-b border-slate-800">
+                    <h3 class="text-sm font-bold text-white tracking-wide uppercase">Configure Employee Profile Details</h3>
+                </div>
+
+                <!-- Fields Layout Grid -->
+                <div class="p-8 space-y-6">
+                    
+                    <!-- Row 1: Full Name & Email -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="space-y-2">
+                            <label class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Full Name</label>
+                            <input type="text" th:field="*{name}" required pattern="[A-Za-z\s]+" title="Full Name must contain letters and spaces only." placeholder="Enter full name"
+                                   class="w-full px-4 py-2.5 rounded-xl border border-slate-200 outline-none focus:border-[#4A3AFF] focus:ring-4 focus:ring-indigo-50 text-xs text-slate-700 font-medium transition-all">
+                        </div>
+                        <div class="space-y-2">
+                            <label class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Email Address</label>
+                            <input type="email" th:field="*{email}" required placeholder="name@company.com"
+                                   class="w-full px-4 py-2.5 rounded-xl border border-slate-200 outline-none focus:border-[#4A3AFF] focus:ring-4 focus:ring-indigo-50 text-xs text-slate-700 font-medium transition-all">
+                        </div>
+                    </div>
+
+                    <!-- Row 2: Phone Number & Designation -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="space-y-2">
+                            <label class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Phone Number</label>
+                            <input type="text" th:field="*{phone}" required inputmode="numeric" pattern="[0-9]{10}" maxlength="10" title="Phone number must be exactly 10 digits." placeholder="10-digit phone number"
+                                   class="w-full px-4 py-2.5 rounded-xl border border-slate-200 outline-none focus:border-[#4A3AFF] focus:ring-4 focus:ring-indigo-50 text-xs text-slate-700 font-medium transition-all">
+                        </div>
+                        <div class="space-y-2">
+                            <label class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Designation</label>
+                            <input type="text" th:field="*{designation}" required placeholder="e.g. IT Support"
+                                   class="w-full px-4 py-2.5 rounded-xl border border-slate-200 outline-none focus:border-[#4A3AFF] focus:ring-4 focus:ring-indigo-50 text-xs text-slate-700 font-medium transition-all">
+                        </div>
+                    </div>
+
+                    <!-- Row 3: Assign Department & System Role -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="space-y-2">
+                            <label class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Assign Department</label>
+                            <div class="relative">
+                               <!-- Note the .id addition to the th:field -->
+<select name="department" class="w-full appearance-none px-4 py-2.5 bg-white rounded-xl border border-slate-200 outline-none focus:border-[#4A3AFF] focus:ring-4 focus:ring-indigo-50 text-xs text-slate-700 font-semibold transition-all cursor-pointer">
+    <option value="1" th:selected="${employee.department == '1'}">Human Resources</option>
+    <option value="2" th:selected="${employee.department == '2'}">Engineering</option>
+    <option value="3" th:selected="${employee.department == '3'}">Product Management</option>
+    <option value="4" th:selected="${employee.department == '4'}">Finance & Operations</option>
+    <option value="5" th:selected="${employee.department == '5'}">IT Support & Security</option>
+</select>                      <div class="absolute inset-y-0 right-4 flex items-center pointer-events-none text-slate-400">
+                                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5"></path></svg>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="space-y-2">
+                            <label class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">System Access Role</label>
+                            <div class="relative">
+                                <select th:field="*{role}" class="w-full appearance-none px-4 py-2.5 bg-white rounded-xl border border-slate-200 outline-none focus:border-[#4A3AFF] focus:ring-4 focus:ring-indigo-50 text-xs text-slate-700 font-semibold transition-all cursor-pointer">
+                                    <option value="EMPLOYEE" th:selected="${employee.role == 'EMPLOYEE'}">EMPLOYEE</option>
+                                    <option value="ADMIN" th:selected="${employee.role == 'ADMIN'}">ADMIN</option>
+                                </select>
+                                <div class="absolute inset-y-0 right-4 flex items-center pointer-events-none text-slate-400">
+                                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5"></path></svg>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Row 4: Password field -->
+                    <div class="space-y-2">
+                        <label class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Portal Access Password</label>
+                        <!-- FIXED: Swapped out th:field for explicit name/value bindings so existing passwords don't clear on render -->
+                        <input type="password" 
+                               name="password" 
+                               th:value="${employee != null ? employee.password : ''}" 
+                               required 
+                               placeholder="••••••••"
+                               class="w-full px-4 py-2.5 rounded-xl border border-slate-200 outline-none focus:border-[#4A3AFF] focus:ring-4 focus:ring-indigo-50 text-xs text-slate-700 font-medium transition-all">
+                    </div>
+
+                </div>
+
+                <!-- Footer Action Controls -->
+                <div class="px-8 py-4 bg-slate-50 border-t border-slate-100 flex items-center justify-end gap-3">
+                    <a th:href="@{/admin/employees}" class="bg-white border border-slate-200 hover:bg-slate-50 text-slate-600 font-semibold px-5 py-2.5 rounded-xl text-xs transition-all cursor-pointer">Cancel Action</a>
+                    <button type="submit" class="bg-[#4A3AFF] hover:bg-[#3d2fe0] text-white font-semibold px-6 py-2.5 rounded-xl text-xs transition-all shadow-md shadow-indigo-100 tracking-wide cursor-pointer">Save Employee Profile</button>
+                </div>
+
+            </form>
+        </div>
+    </main>
+
+</body>
+</html>

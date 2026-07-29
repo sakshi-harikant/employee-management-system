@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registry · Employee Management</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <!-- Premium Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Lora:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
+    
+    <style>
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: #fafaff;
+        }
+        .serif-heading {
+            font-family: 'Lora', serif;
+        }
+
+        /* === ANIMATED GLOW + FLOATING DOTS === */
+        .glow-dot {
+            position: absolute;
+            border-radius: 9999px;
+            background: radial-gradient(circle at center, rgba(74, 58, 255, 0.18) 0%, rgba(74, 58, 255, 0) 70%);
+            filter: blur(2px);
+            pointer-events: none;
+            z-index: 0;
+        }
+        .glow-dot-1 {
+            width: 220px;
+            height: 220px;
+            top: -40px;
+            right: -20px;
+            animation: pulseGlow 7s infinite alternate ease-in-out;
+        }
+        .glow-dot-2 {
+            width: 300px;
+            height: 300px;
+            bottom: -80px;
+            left: -80px;
+            animation: pulseGlow 9s infinite alternate-reverse ease-in-out;
+        }
+        .glow-dot-3 {
+            width: 160px;
+            height: 160px;
+            top: 45%;
+            left: 12%;
+            animation: pulseGlow 5.5s infinite alternate ease-in-out;
+            background: radial-gradient(circle at center, rgba(93, 95, 239, 0.16) 0%, rgba(74, 58, 255, 0) 70%);
+        }
+        .glow-dot-4 {
+            width: 130px;
+            height: 130px;
+            bottom: 30%;
+            right: 8%;
+            animation: pulseGlow 8s infinite alternate-reverse ease-in-out;
+            background: radial-gradient(circle at center, rgba(74, 58, 255, 0.12) 0%, rgba(74, 58, 255, 0) 70%);
+        }
+
+        @keyframes pulseGlow {
+            0% { opacity: 0.2; transform: scale(1); }
+            100% { opacity: 0.6; transform: scale(1.4); }
+        }
+
+        /* floating tiny dots (more particles) */
+        .dot-particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: #4A3AFF;
+            border-radius: 50%;
+            opacity: 0.2;
+            filter: blur(0.5px);
+            animation: floatDot 14s infinite alternate ease-in-out;
+        }
+        .dot-particle:nth-child(1) { top: 8%; left: 5%; animation-duration: 15s; width: 5px; height: 5px; }
+        .dot-particle:nth-child(2) { top: 22%; right: 8%; animation-duration: 11s; opacity: 0.3; width: 6px; height: 6px; }
+        .dot-particle:nth-child(3) { bottom: 12%; left: 16%; animation-duration: 17s; opacity: 0.18; }
+        .dot-particle:nth-child(4) { bottom: 32%; right: 5%; animation-duration: 12s; opacity: 0.3; background: #5D5FEF; width: 5px; height: 5px; }
+        .dot-particle:nth-child(5) { top: 52%; left: 3%; animation-duration: 14s; opacity: 0.2; width: 7px; height: 7px; }
+        .dot-particle:nth-child(6) { top: 5%; left: 32%; animation-duration: 19s; opacity: 0.15; background: #7c7eff; width: 5px; height: 5px; }
+        .dot-particle:nth-child(7) { bottom: 8%; right: 22%; animation-duration: 13s; opacity: 0.25; width: 4px; height: 4px; }
+        .dot-particle:nth-child(8) { top: 40%; right: 2%; animation-duration: 16s; opacity: 0.2; background: #4A3AFF; width: 6px; height: 6px; }
+        .dot-particle:nth-child(9) { top: 72%; left: 42%; animation-duration: 12s; opacity: 0.15; width: 5px; height: 5px; }
+        .dot-particle:nth-child(10) { bottom: 48%; left: 28%; animation-duration: 18s; opacity: 0.2; background: #5D5FEF; }
+
+        @keyframes floatDot {
+            0% { transform: translate(0, 0) scale(1); opacity: 0.12; }
+            33% { transform: translate(14px, -20px) scale(1.3); opacity: 0.35; }
+            66% { transform: translate(-10px, 14px) scale(0.8); opacity: 0.18; }
+            100% { transform: translate(8px, -8px) scale(1); opacity: 0.25; }
+        }
+
+        /* feature card */
+        .feature-card {
+            transition: all 0.35s cubic-bezier(0.23, 1, 0.32, 1);
+            border-radius: 28px;
+            padding: 1.5rem 1.75rem;
+            background: rgba(255,255,255,0.5);
+            backdrop-filter: blur(4px);
+            border: 1px solid rgba(74, 58, 255, 0.04);
+            box-shadow: 0 6px 18px rgba(74, 58, 255, 0.02);
+        }
+        .feature-card:hover {
+            transform: translateY(-6px);
+            border-color: rgba(74, 58, 255, 0.18);
+            box-shadow: 0 24px 44px -14px rgba(74, 58, 255, 0.15), 0 4px 16px rgba(74, 58, 255, 0.04);
+            background: white;
+        }
+
+        /* nav link underline */
+        .nav-link {
+            position: relative;
+            font-weight: 600;
+            color: #2d2f3b;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2.5px;
+            background: #4A3AFF;
+            transition: width 0.25s ease;
+            border-radius: 4px;
+        }
+        .nav-link:hover::after { width: 100%; }
+        .nav-link:hover { color: #12131A; }
+
+        /* signin btn */
+        .signin-btn {
+            background: rgba(255,255,255,0.7);
+            backdrop-filter: blur(6px);
+            border: 1px solid rgba(74, 58, 255, 0.10);
+            transition: all 0.25s;
+        }
+        .signin-btn:hover {
+            background: white;
+            border-color: #4A3AFF;
+            box-shadow: 0 8px 24px -8px rgba(74, 58, 255, 0.2);
+            transform: scale(1.03);
+        }
+
+        /* dark window glow */
+        .window-glow {
+            box-shadow: 0 24px 64px -12px rgba(74, 58, 255, 0.22), 0 0 0 1px rgba(255,255,255,0.02) inset, 0 0 48px rgba(74, 58, 255, 0.05);
+        }
+
+        .badge-pulse {
+            animation: pulseBadge 3s infinite alternate;
+        }
+        @keyframes pulseBadge {
+            0% { opacity: 0.6; transform: scale(1); }
+            100% { opacity: 1; transform: scale(1.04); }
+        }
+
+        .features-bg {
+            background: linear-gradient(180deg, #fafaff 0%, #f0f0fe 100%);
+        }
+
+        /* new insight card */
+        .insight-card {
+            background: rgba(255,255,255,0.75);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(74, 58, 255, 0.08);
+            box-shadow: 0 12px 28px -10px rgba(74, 58, 255, 0.08);
+        }
+        .insight-card:hover {
+            border-color: rgba(74, 58, 255, 0.2);
+            box-shadow: 0 16px 36px -12px rgba(74, 58, 255, 0.14);
+        }
+
+        .sparkle {
+            animation: sparkle 2.4s infinite alternate;
+        }
+        @keyframes sparkle {
+            0% { opacity: 0.5; transform: scale(0.95); }
+            100% { opacity: 1; transform: scale(1.05); }
+        }
+    </style>
+</head>
+<body class="text-[#12131A] min-h-screen flex flex-col justify-between overflow-x-hidden relative">
+
+    <!-- ===== FLOATING GLOW DOTS ===== -->
+    <div class="glow-dot glow-dot-1"></div>
+    <div class="glow-dot glow-dot-2"></div>
+    <div class="glow-dot glow-dot-3"></div>
+    <div class="glow-dot glow-dot-4"></div>
+
+    <!-- ===== FLOATING MICRO DOTS ===== -->
+    <div class="dot-particle"></div>
+    <div class="dot-particle"></div>
+    <div class="dot-particle"></div>
+    <div class="dot-particle"></div>
+    <div class="dot-particle"></div>
+    <div class="dot-particle"></div>
+    <div class="dot-particle"></div>
+    <div class="dot-particle"></div>
+    <div class="dot-particle"></div>
+    <div class="dot-particle"></div>
+
+    <!-- 1. NAVIGATION BAR -->
+    <header class="w-full max-w-7xl mx-auto px-6 sm:px-12 py-5 flex items-center justify-between relative z-10">
+        <!-- Logo (untouched) -->
+        <div class="flex items-center gap-3">
+            <div class="w-10 h-10 bg-gradient-to-br from-[#5D5FEF] to-[#4A3AFF] rounded-xl flex items-center justify-center text-white font-bold text-xl shadow-lg shadow-indigo-100/70">
+                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="4" y1="9" x2="20" y2="9"></line>
+                    <line x1="4" y1="15" x2="20" y2="15"></line>
+                    <line x1="10" y1="3" x2="8" y2="21"></line>
+                    <line x1="16" y1="3" x2="14" y2="21"></line>
+                </svg>
+            </div>
+            <span class="text-xl font-bold tracking-tight text-slate-900">Registry</span>
+        </div>
+
+        <!-- Navigation Links -->
+        <nav class="hidden sm:flex items-center gap-10 text-sm font-semibold text-slate-700">
+            <a th:href="@{/}" class="nav-link">Home</a>
+            <a href="#features" class="nav-link">Features</a>
+        </nav>
+
+        <!-- Sign In Button -->
+        <a th:href="@{/login}" class="signin-btn font-semibold py-2.5 px-6 rounded-xl text-sm text-slate-800 shadow-sm cursor-pointer transition-all">
+            Sign In
+        </a>
+    </header>
+
+    <!-- 2. HERO SECTION -->
+    <main class="w-full max-w-7xl mx-auto px-6 sm:px-12 py-6 grid grid-cols-1 lg:grid-cols-12 gap-6 items-center flex-grow relative z-10">
+
+        <!-- Left Hero Content -->
+        <div class="lg:col-span-7 space-y-5 relative">
+            <!-- Pill tag -->
+            <div class="inline-flex items-center gap-2 bg-[#F6F1E8] text-[#8C7355] px-4 py-1.5 rounded-full text-xs font-bold tracking-wider uppercase border border-[#EBE3D5] shadow-sm">
+                <span class="w-1.5 h-1.5 bg-[#8C7355] rounded-full animate-pulse"></span>
+                Human Capital Console
+            </div>
+
+            <!-- Headline -->
+            <h1 class="serif-heading text-5xl sm:text-6xl lg:text-[68px] font-medium tracking-tight text-slate-900 leading-[1.08] relative">
+                Every employee record, kept like a <span class="italic text-[#4A3AFF] font-normal relative">ledger.
+                    <span class="absolute -bottom-1 left-0 w-full h-1 bg-[#4A3AFF]/15 blur-sm rounded-full"></span>
+                </span>
+            </h1>
+
+            <p class="text-slate-500 text-lg max-w-lg font-normal leading-relaxed">
+                One workspace for staff profiles, department mapping, and leave requests — built for teams who want their people data to feel as precise as their books.
+            </p>
+
+            <!-- CTA & Security Note -->
+            <div class="flex flex-col sm:flex-row sm:items-center gap-4 pt-1">
+                <a th:href="@{/login}" class="inline-flex items-center justify-center gap-2 bg-[#4A3AFF] hover:bg-[#3b2ee0] text-white font-semibold py-3.5 px-7 rounded-xl shadow-xl shadow-indigo-100/80 hover:shadow-indigo-200/60 transition-all duration-300 text-base cursor-pointer group">
+                    Access Portal Gateway
+                    <svg class="w-4 h-4 ml-1 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"></path>
+                    </svg>
+                </a>
+                <div class="flex items-center gap-2 text-emerald-600 font-medium text-sm bg-emerald-50/60 px-4 py-2 rounded-full border border-emerald-100/30">
+                    <svg class="w-5 h-5 text-emerald-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 01-1.043 3.296 3.745 3.745 0 01-3.296 1.043A3.745 3.745 0 0112 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 01-3.296-1.043 3.745 3.745 0 01-1.043-3.296A3.745 3.745 0 013 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 011.043-3.296 3.746 3.746 0 013.296-1.043A3.746 3.746 0 0112 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 013.296 1.043 3.746 3.746 0 011.043 3.296A3.745 3.745 0 0121 12z"></path>
+                    </svg>
+                    Role-based access, secured
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Visual Mockup Workspace -->
+        <div class="lg:col-span-5 relative flex justify-center py-4">
+
+            <!-- FLOATING CARD 1: replaced "Leave Approved" with "Department Growth" -->
+            <div class="absolute top-0 -left-10 bg-white/80 backdrop-blur-md py-3 px-5 rounded-2xl shadow-xl border border-slate-100/80 flex items-center gap-3 z-20 shadow-indigo-100/30 insight-card">
+                <div class="w-9 h-9 bg-indigo-50 rounded-lg flex items-center justify-center text-[#4A3AFF] border border-indigo-100/60">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 18.75a60.07 60.07 0 0115.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 013 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 00-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 01-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 003 15h-.75M15 10.5a3 3 0 11-6 0 3 3 0 016 0zm3 0h.008v.008H18V10.5zm-12 0h.008v.008H6V10.5z"></path>
+                    </svg>
+                </div>
+                <div>
+                    <h4 class="text-xs font-bold text-slate-800">Department Growth</h4>
+                    <p class="text-[10px] text-slate-400 font-semibold mt-0.5">+12% this quarter</p>
+                </div>
+            </div>
+
+            <!-- FLOATING CARD 2: "Profile Synced" (kept, refined) -->
+            <div class="absolute bottom-6 -right-10 bg-white/80 backdrop-blur-md py-3 px-5 rounded-2xl shadow-xl border border-slate-100/80 flex items-center gap-3 z-20 shadow-indigo-100/30 insight-card">
+                <div class="w-9 h-9 bg-emerald-50 rounded-lg flex items-center justify-center text-emerald-600 border border-emerald-100/60">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 01-1.043 3.296 3.745 3.745 0 01-3.296 1.043A3.745 3.745 0 0112 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 01-3.296-1.043 3.745 3.745 0 01-1.043-3.296A3.745 3.745 0 013 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 011.043-3.296 3.746 3.746 0 013.296-1.043A3.746 3.746 0 0112 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 013.296 1.043 3.746 3.746 0 011.043 3.296A3.745 3.745 0 0121 12z"></path>
+                    </svg>
+                </div>
+                <div>
+                    <h4 class="text-xs font-bold text-slate-800">Profile Synced</h4>
+                    <p class="text-[10px] text-slate-400 font-semibold mt-0.5">Just now</p>
+                </div>
+            </div>
+
+            <!-- MAIN DARK WINDOW (enhanced with better employee cards) -->
+            <div class="w-full max-w-md bg-[#0E1015] rounded-[28px] shadow-2xl border border-slate-800/80 p-6 space-y-5 relative overflow-hidden window-glow">
+                <div class="absolute inset-0 pointer-events-none bg-gradient-to-br from-[#4A3AFF]/5 to-transparent rounded-[28px]"></div>
+
+                <!-- Mac Window Controls -->
+                <div class="flex items-center justify-between relative z-10">
+                    <div class="flex items-center gap-1.5">
+                        <span class="w-2.5 h-2.5 rounded-full bg-red-500/80"></span>
+                        <span class="w-2.5 h-2.5 rounded-full bg-yellow-500/80"></span>
+                        <span class="w-2.5 h-2.5 rounded-full bg-green-500/80"></span>
+                    </div>
+                    <span class="text-[9px] text-slate-500 font-bold tracking-widest uppercase">Employee Registry</span>
+                </div>
+
+                <!-- Employee List (refined with better visual hierarchy) -->
+                <div class="space-y-3 relative z-10">
+                    <!-- Row 1 -->
+                    <div class="bg-white/[0.03] hover:bg-white/[0.06] border border-white/[0.05] hover:border-[#4A3AFF]/20 rounded-xl p-4 flex items-center justify-between transition-all duration-200 group">
+                        <div class="flex items-center gap-3.5">
+                            <div class="w-9 h-9 rounded-full bg-[#E8A355]/10 text-[#E8A355] flex items-center justify-center font-bold text-xs group-hover:scale-105 transition">A</div>
+                            <div>
+                                <h5 class="text-xs font-bold text-white group-hover:text-indigo-200 transition">Aditi Rao</h5>
+                                <p class="text-[10px] text-slate-500 mt-0.5 font-medium">Engineering</p>
+                            </div>
+                        </div>
+                        <span class="text-[9px] font-bold text-emerald-400 bg-emerald-500/10 px-2.5 py-1 rounded-full badge-pulse">Active</span>
+                    </div>
+
+                    <!-- Row 2 -->
+                    <div class="bg-white/[0.03] hover:bg-white/[0.06] border border-white/[0.05] hover:border-[#4A3AFF]/20 rounded-xl p-4 flex items-center justify-between transition-all duration-200 group">
+                        <div class="flex items-center gap-3.5">
+                            <div class="w-9 h-9 rounded-full bg-[#5D5FEF]/10 text-[#5D5FEF] flex items-center justify-center font-bold text-xs group-hover:scale-105 transition">K</div>
+                            <div>
+                                <h5 class="text-xs font-bold text-white group-hover:text-indigo-200 transition">Karan Mehta</h5>
+                                <p class="text-[10px] text-slate-500 mt-0.5 font-medium">Design</p>
+                            </div>
+                        </div>
+                        <span class="text-[9px] font-bold text-emerald-400 bg-emerald-500/10 px-2.5 py-1 rounded-full badge-pulse">Active</span>
+                    </div>
+
+                    <!-- Row 3 -->
+                    <div class="bg-white/[0.03] hover:bg-white/[0.06] border border-white/[0.05] hover:border-[#4A3AFF]/20 rounded-xl p-4 flex items-center justify-between transition-all duration-200 group">
+                        <div class="flex items-center gap-3.5">
+                            <div class="w-9 h-9 rounded-full bg-[#F5BF3C]/10 text-[#F5BF3C] flex items-center justify-center font-bold text-xs group-hover:scale-105 transition">S</div>
+                            <div>
+                                <h5 class="text-xs font-bold text-white group-hover:text-indigo-200 transition">Sara Iyer</h5>
+                                <p class="text-[10px] text-slate-500 mt-0.5 font-medium">Operations</p>
+                            </div>
+                        </div>
+                        <span class="text-[9px] font-bold text-emerald-400 bg-emerald-500/10 px-2.5 py-1 rounded-full badge-pulse">Active</span>
+                    </div>
+
+                    <!-- subtle divider + insight -->
+                    <div class="pt-1 border-t border-white/[0.04] flex items-center justify-between">
+                        <span class="text-[8px] text-slate-600 font-medium tracking-widest uppercase">● 3 active employees</span>
+                        <span class="text-[8px] text-slate-600 font-medium tracking-wider">+2 new this month</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- 3. FEATURES SECTION -->
+    <section id="features" class="w-full features-bg border-t border-slate-100/70 py-16 shrink-0 relative z-10">
+        <div class="max-w-7xl mx-auto px-6 sm:px-12 grid grid-cols-1 md:grid-cols-3 gap-6">
+
+            <!-- Feature 1 -->
+            <div class="feature-card group">
+                <div class="flex items-start gap-5">
+                    <div class="w-12 h-12 bg-indigo-50 rounded-2xl flex items-center justify-center text-[#4A3AFF] shrink-0 border border-indigo-100/60 shadow-sm shadow-indigo-100/50 group-hover:shadow-indigo-200/70 transition-all group-hover:scale-105">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.109A2.25 2.25 0 0112.75 21.5h-1.5a2.25 2.25 0 01-2.25-2.263V19.13m4.786-3.07a9.348 9.348 0 00-5.658-.562m5.658.562l.011-.004m0 0A3.75 3.75 0 1012 6.75a3.75 3.75 0 00-3.125 5.617m5.658-.562c-.501-.91-.786-1.957-.786-3.07V9M9.062 18.994V19.13a2.25 2.25 0 01-2.25 2.263h-1.5a2.25 2.25 0 01-2.25-2.263v-.136m4.786-3.07a9.348 9.348 0 00-5.658-.562m5.658.562l.011-.004m0 0A3.75 3.75 0 103 12.75a3.75 3.75 0 004.121 3.068M12.75 9.75a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z"></path>
+                        </svg>
+                    </div>
+                    <div class="space-y-1">
+                        <h3 class="text-base font-bold text-slate-900 tracking-tight">Staff Management</h3>
+                        <p class="text-xs text-slate-500 leading-relaxed font-medium">Securely maintain dynamic employee directories, designations, and direct onboarding workflows.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Feature 2 -->
+            <div class="feature-card group">
+                <div class="flex items-start gap-5">
+                    <div class="w-12 h-12 bg-indigo-50 rounded-2xl flex items-center justify-center text-[#4A3AFF] shrink-0 border border-indigo-100/60 shadow-sm shadow-indigo-100/50 group-hover:shadow-indigo-200/70 transition-all group-hover:scale-105">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z"></path>
+                        </svg>
+                    </div>
+                    <div class="space-y-1">
+                        <h3 class="text-base font-bold text-slate-900 tracking-tight">Department Topology</h3>
+                        <p class="text-xs text-slate-500 leading-relaxed font-medium">Map personnel structures accurately to functional divisions, and track localized team sizes.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Feature 3 -->
+            <div class="feature-card group">
+                <div class="flex items-start gap-5">
+                    <div class="w-12 h-12 bg-indigo-50 rounded-2xl flex items-center justify-center text-[#4A3AFF] shrink-0 border border-indigo-100/60 shadow-sm shadow-indigo-100/50 group-hover:shadow-indigo-200/70 transition-all group-hover:scale-105">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z"></path>
+                        </svg>
+                    </div>
+                    <div class="space-y-1">
+                        <h3 class="text-base font-bold text-slate-900 tracking-tight">Access Control (RBAC)</h3>
+                        <p class="text-xs text-slate-500 leading-relaxed font-medium">Secured endpoint routing separating administrator configurations from localized employee profile access.</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+</body>
+</html>
