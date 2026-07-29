@@ -23,7 +23,7 @@ A full-stack web application for managing employee information with secure authe
 * **Build Tool:** Maven
 
 ---
-## 📸 Screenshots
+## Screenshots
 
 ### Home Page
 ![Home Page](screenshot/HomePage.png)
