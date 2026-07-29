@@ -13,6 +13,16 @@ A full-stack web application for managing employee information with secure authe
 * Search employee records
 
 ---
+## 📸 Screenshots
+
+### Home Page
+![Home Page](screenshot/HomePage.png)
+
+### Login Page
+![Login Page](screenshot/Role-Based_Login.png)
+
+### Dashboard
+![Dashboard](screenshot/DashBoard.png)
 
 ## Tech Stack
 
